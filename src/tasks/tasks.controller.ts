@@ -2,22 +2,25 @@ import { Controller, Get, Post, Put, Delete, Patch, Body, Query, Param } from '@
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import type { UpdateTaskDto } from './dto/update-task.dto';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('/tasks')
 export class TasksController {
-
 
     constructor(private tasksService: TasksService) {
     }
 
     @Get()
-    getAllTasks(@Query() query:any) {
+    @ApiOperation({ summary: 'Get all tasks' })
+    @ApiResponse({ status: 200, description: 'Return all tasks.' })
+    @ApiResponse({ status: 403, description: 'Forbidden.' })
+    getAllTasks(@Query() query: any) {
         console.log(query)
         return this.tasksService.getTasks();
     }
 
     @Get('/:id')
-    getTask(@Param('id') id: string){
+    getTask(@Param('id') id: string) {
         console.log(id)
         return this.tasksService.getTask(parseInt(id));
     }
